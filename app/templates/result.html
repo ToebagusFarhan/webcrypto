@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container result-container">
+    <h2>{{ action|title }}ion Results - {{ cipher_type|replace('_', ' ')|title }}</h2>
+    
+    <div class="result-section">
+        <h3>Original Text</h3>
+        <div class="text-box">{{ original_text }}</div>
+    </div>
+    
+    {% if action == 'encrypt' and 'ciphertext' in result %}
+    <div class="result-section">
+        <h3>Ciphertext (Hex)</h3>
+        <div class="text-box ciphertext">{{ result.ciphertext }}</div>
+        <button onclick="copyToClipboard('.ciphertext')">Copy Ciphertext</button>
+        <a href="{{ url_for('download', text=result.raw_cipher) }}" class="button">Download as TXT</a>
+    </div>
+    {% elif action == 'decrypt' and 'plaintext' in result %}
+    <div class="result-section">
+        <h3>Plaintext</h3>
+        <div class="text-box">{{ result.plaintext }}</div>
+    </div>
+    {% endif %}
+    
+    <a href="{{ url_for('index') }}" class="button">Back to Home</a>
+</div>
+{% endblock %}
