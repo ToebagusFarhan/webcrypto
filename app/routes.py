@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, send_file, jsonify
+from flask import render_template, request, redirect, url_for, flash, send_file
 from app import app
 from app.controller.main_controller import (
     allowed_file, 
@@ -8,7 +8,6 @@ from app.controller.main_controller import (
 )
 import os
 from io import BytesIO
-import tempfile
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
@@ -22,7 +21,8 @@ def index():
         text = request.form.get('text')
         file = request.files.get('file')
         
-        # Additional parameters
+        # Parameter tambahan untuk affine dan hill cipher
+        # a dan b untuk affine cipher, size untuk hill cipher
         a = request.form.get('a')
         b = request.form.get('b')
         size = request.form.get('size')
@@ -32,18 +32,19 @@ def index():
             return redirect(url_for('index'))
 
         try:
-            # Handle file operations
+            # Untuk file upload
             if file and file.filename and allowed_file(file.filename):
                 result = process_file_cipher(action, cipher_type, file, key)
                 if 'error' in result:
                     flash(result['error'], 'error')
                     return redirect(url_for('index'))
 
-                # Create in-memory file
+                # Buat file stream dari data yang diproses
                 file_stream = BytesIO(result['file_data'])
                 file_stream.seek(0)
                 
-                # Determine filename
+                # Generate nama file baru
+                # Misalnya: original_name = "document", action = "encrypt", ext = ".txt"
                 original_name = os.path.splitext(result['filename'])[0]
                 ext = os.path.splitext(result['filename'])[1]
                 new_filename = f"{original_name}_{action}ed{ext}"
@@ -55,7 +56,7 @@ def index():
                     mimetype='application/octet-stream'
                 )
 
-            # Handle text operations
+            # Untuk teks input
             elif text:
                 result = process_text_cipher(action, cipher_type, text, key, a, b, size)
                 if 'error' in result:
