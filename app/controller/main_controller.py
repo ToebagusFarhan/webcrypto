@@ -25,6 +25,27 @@ def format_extended_ciphertext(ciphertext):
     return ' '.join(f'{ord(c):02x}' for c in ciphertext)
 
 def process_text_cipher(action, cipher_type, text, key, a=None, b=None, size=None):
+    """Memproses teks menggunakan berbagai algoritma cipher.
+    Fungsi ini menangani berbagai jenis operasi cipher (enkripsi/dekripsi)
+    berdasarkan jenis cipher dan parameter yang ditentukan.
+    Args:
+        action (str): Aksi yang akan dilakukan ('encrypt' atau 'decrypt')
+        cipher_type (str): Jenis cipher yang digunakan ('vigenere', 'auto_key_vigenere',
+                          'extended_vigenere', 'affine', 'playfair', 'hill')
+        text (str): Teks masukan yang akan diproses
+        key (str): Kunci enkripsi/dekripsi
+        a (int, optional): Parameter 'a' untuk cipher affine. Default: None.
+        b (int, optional): Parameter 'b' untuk cipher affine. Default: None.
+        size (int, optional): Ukuran matriks untuk cipher hill. Default: None.
+    Returns:
+        dict: Dictionary yang berisi:
+            - {'ciphertext': str} untuk enkripsi
+            - {'plaintext': str} untuk dekripsi
+            - {'error': str} jika terjadi kesalahan
+            - Untuk enkripsi extended_vigenere juga menyertakan {'raw_cipher': str}
+    Raises:
+        ValueError: Jika parameter yang tidak valid diberikan untuk cipher affine atau hill
+    """
     result = {}
     
     if cipher_type == 'vigenere':

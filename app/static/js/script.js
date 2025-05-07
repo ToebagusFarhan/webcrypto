@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputTypeRadios = document.querySelectorAll('input[name="input_type"]');
     const textInputDiv = document.getElementById('text_input');
     const fileInputDiv = document.getElementById('file_input');
+    const fileRadioInput = document.querySelector('input[name="input_type"][value="file"]');
     
     inputTypeRadios.forEach(radio => {
         radio.addEventListener('change', function() {
@@ -30,8 +31,27 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show relevant parameters
         if (this.value === 'affine') {
             affineParams.style.display = 'block';
+            // Disable file input and switch to text input
+            fileRadioInput.disabled = true;
+            document.querySelector('input[name="input_type"][value="text"]').checked = true;
+            textInputDiv.style.display = 'block';
+            fileInputDiv.style.display = 'none';
         } else if (this.value === 'hill') {
             hillParams.style.display = 'block';
+            // Disable file input and switch to text input
+            fileRadioInput.disabled = true;
+            document.querySelector('input[name="input_type"][value="text"]').checked = true;
+            textInputDiv.style.display = 'block';
+            fileInputDiv.style.display = 'none';
+        } else if (this.value === 'extended_vigenere') {
+            // Enable file input for extended vigenere
+            fileRadioInput.disabled = false;
+        } else {
+            // Disable file input for other ciphers
+            fileRadioInput.disabled = true;
+            document.querySelector('input[name="input_type"][value="text"]').checked = true;
+            textInputDiv.style.display = 'block';
+            fileInputDiv.style.display = 'none';
         }
     });
     
