@@ -33,12 +33,12 @@
         <!-- Additional parameters for specific ciphers -->
         <div id="affine_params" class="cipher-params" style="display: none;">
             <div class="form-group">
-                <label for="a">Value of a (for Affine Cipher):</label>
-                <input type="number" id="a" name="a" min="1" max="25">
+            <label for="a">Value of a (for Affine Cipher), Gunakan 1, 3, 5, 7, 11, 15, 17, 19, 21, 23, dan 25:</label>
+            <input type="number" id="a" name="a" min="1" max="25" step="1" pattern="\d*" inputmode="numeric">
             </div>
             <div class="form-group">
-                <label for="b">Value of b (for Affine Cipher):</label>
-                <input type="number" id="b" name="b" min="0" max="25">
+            <label for="b">Value of b (for Affine Cipher):</label>
+            <input type="number" id="b" name="b" min="0" max="25" step="1" pattern="\d*" inputmode="numeric">
             </div>
         </div>
         
