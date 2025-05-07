@@ -1,5 +1,7 @@
 import numpy as np
 
+# --- TEXT-BASED HILL CIPHER ---
+
 def text_to_num(text):
     return [ord(char) - ord('A') for char in text]
 
@@ -23,7 +25,7 @@ def prepare_text(plaintext, size):
     return plaintext
 
 def mod_inverse_matrix(matrix, mod):
-    det = int(np.round(np.linalg.det(matrix)))
+    det = int(round(np.linalg.det(matrix)))
     det_inv = pow(det, -1, mod)
     adj = np.round(det * np.linalg.inv(matrix)).astype(int)
     return (det_inv * adj) % mod
@@ -53,3 +55,38 @@ def decrypt(ciphertext, key, size=2):
         decrypted_nums = np.dot(inv_key, nums) % 26
         plaintext += num_to_text(decrypted_nums)
     return plaintext
+
+# --- BYTE-BASED HILL CIPHER FOR FILES ---
+
+def prepare_key_bytes(key: str, size: int) -> np.ndarray:
+    key_bytes = key.encode('latin-1')
+    while len(key_bytes) < size * size:
+        key_bytes += b'\x00'
+    key_bytes = key_bytes[:size * size]
+    return np.array(list(key_bytes)).reshape(size, size)
+
+def encrypt_bytes(data: bytes, key: str, size: int = 2) -> bytes:
+    key_matrix = prepare_key_bytes(key, size)
+    while len(data) % size != 0:
+        data += b'\x00'
+
+    result = bytearray()
+    for i in range(0, len(data), size):
+        block = np.array(list(data[i:i+size]))
+        encrypted = np.dot(key_matrix, block) % 256
+        result.extend(encrypted.astype(np.uint8))
+    return bytes(result)
+
+def decrypt_bytes(data: bytes, key: str, size: int = 2) -> bytes:
+    key_matrix = prepare_key_bytes(key, size)
+    try:
+        inv_matrix = mod_inverse_matrix(key_matrix, 256)
+    except Exception:
+        raise ValueError("Key matrix is not invertible mod 256.")
+
+    result = bytearray()
+    for i in range(0, len(data), size):
+        block = np.array(list(data[i:i+size]))
+        decrypted = np.dot(inv_matrix, block) % 256
+        result.extend(decrypted.astype(np.uint8))
+    return bytes(result)

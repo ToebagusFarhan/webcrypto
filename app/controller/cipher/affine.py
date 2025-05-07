@@ -40,3 +40,22 @@ def decrypt(ciphertext, a, b):
         decrypted = (a_inv * (y - b)) % 26
         plaintext += chr(decrypted + ord('A'))
     return plaintext
+
+# --- BYTE SUPPORT ---
+
+def encrypt_bytes(data: bytes, a: int, b: int) -> bytes:
+    """Encrypt raw bytes (0-255) using Affine cipher with mod 256."""
+    encrypted = bytearray()
+    for byte in data:
+        encrypted.append((a * byte + b) % 256)
+    return bytes(encrypted)
+
+def decrypt_bytes(data: bytes, a: int, b: int) -> bytes:
+    """Decrypt raw bytes (0-255) using Affine cipher with mod 256."""
+    a_inv = mod_inverse(a, 256)
+    if a_inv is None:
+        raise ValueError("a and 256 must be coprime.")
+    decrypted = bytearray()
+    for byte in data:
+        decrypted.append((a_inv * (byte - b)) % 256)
+    return bytes(decrypted)

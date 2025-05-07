@@ -86,8 +86,15 @@ def about():
 @app.route('/download')
 def download():
     text = request.args.get('text', '')
+    if not text:
+        flash("No text to download", "error")
+        return redirect(url_for('index'))
+
+    # Convert text to a file-like object
     file = BytesIO(text.encode('utf-8'))
     file.seek(0)
+
+    # Send the file as a downloadable attachment
     return send_file(
         file,
         as_attachment=True,

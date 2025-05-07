@@ -19,3 +19,14 @@ def decrypt(ciphertext, key):
         decrypted_char = chr(((ord(c) - ord('A') - shift) % 26 + ord('A')))
         plaintext += decrypted_char
     return plaintext
+
+def encrypt_bytes(data: bytes, key: str) -> bytes:
+    text = data.decode('utf-8', errors='ignore')  
+    encrypted_text = encrypt(text, key)
+    return encrypted_text.encode('utf-8')
+
+
+def decrypt_bytes(data: bytes, key: str) -> bytes:
+    text = data.decode('utf-8', errors='ignore')
+    decrypted_text = decrypt(text, key)
+    return decrypted_text.encode('utf-8')

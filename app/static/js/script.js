@@ -32,14 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.value === 'affine') {
             affineParams.style.display = 'block';
             // Disable file input and switch to text input
-            fileRadioInput.disabled = true;
+            fileRadioInput.disabled = false;
             document.querySelector('input[name="input_type"][value="text"]').checked = true;
             textInputDiv.style.display = 'block';
             fileInputDiv.style.display = 'none';
         } else if (this.value === 'hill') {
             hillParams.style.display = 'block';
             // Disable file input and switch to text input
-            fileRadioInput.disabled = true;
+            fileRadioInput.disabled = false;
             document.querySelector('input[name="input_type"][value="text"]').checked = true;
             textInputDiv.style.display = 'block';
             fileInputDiv.style.display = 'none';
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fileRadioInput.disabled = false;
         } else {
             // Disable file input for other ciphers
-            fileRadioInput.disabled = true;
+            fileRadioInput.disabled = false;
             document.querySelector('input[name="input_type"][value="text"]').checked = true;
             textInputDiv.style.display = 'block';
             fileInputDiv.style.display = 'none';
