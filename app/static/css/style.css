@@ -176,6 +176,46 @@ a.button:hover {
   white-space: pre-wrap;
 }
 
+/* About Page */
+.about-container .section {
+  margin-bottom: 3rem;
+}
+
+.about-container h2 {
+  font-size: 1.5rem;
+  color: #2e5eaa;
+  margin-bottom: 1rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.team-member {
+  background: #f5faff;
+  border: 1px solid #cfe8f3;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 500;
+  color: #2e5eaa;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.about-container p {
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
 /* Footer */
 footer {
   margin-top: auto;

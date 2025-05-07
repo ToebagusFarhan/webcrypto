@@ -1,23 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-Tentang Kami
+About
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  
-    <h2>Anggota Tim</h2>
-    <ul>
-        <li><strong>Tb. Muhammad Farhan Adnan</strong> 3337220038  </li>
-        <li><strong>Ryan Rafael Nainggolan</strong> 3337220036</li>
-        <li><strong>Voully Abdullah Zhacque</strong> 3337220066 </li>
-        <li><strong>Aditya Sastraatmaja</strong> 3337220090 </li>
-        <li><strong>Rojak Kurniawan</strong> 3337220099 </li>
-        <li><strong>M Syahril Ridho</strong> 3337220101 </li>
-    </ul>
-    
-    <h2>Tentang Proyek</h2>
-    <p>Aplikasi ini dirancang untuk mendemonstrasikan penggunaan teknik kriptografi dalam lingkungan web. Aplikasi ini menampilkan penanganan data yang aman, fungsi enkripsi, dan dekripsi.</p>
+<div class="container about-container">
+  <section class="section">
+    <h2>Meet the Team</h2>
+    <div class="team-grid">
+      <div class="team-member"><strong>Tb. Muhammad Farhan Adnan</strong><br>3337220038</div>
+      <div class="team-member"><strong>Ryan Rafael Nainggolan</strong><br>3337220036</div>
+      <div class="team-member"><strong>Voully Abdullah Zhacque</strong><br>3337220066</div>
+      <div class="team-member"><strong>Aditya Sastraatmaja</strong><br>3337220090</div>
+      <div class="team-member"><strong>Rojak Kurniawan</strong><br>3337220099</div>
+      <div class="team-member"><strong>M Syahril Ridho</strong><br>3337220101</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Tentang Project</h2>
+    <p>
+      Aplikasi ini dirancang untuk mendemonstrasikan penggunaan teknik kriptografi dalam lingkungan web. Aplikasi ini menampilkan penanganan data yang aman, fungsi enkripsi, dan dekripsi.
+    </p>
+  </section>
 </div>
 {% endblock %}
