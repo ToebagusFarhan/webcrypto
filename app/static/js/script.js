@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function copyToClipboard(selector) {
     const text = document.querySelector(selector).innerText;
     navigator.clipboard.writeText(text).then(() => {
-        alert('Copied to clipboard!');
+        alert('SUDAH DI KOPI KANG!');
     }).catch(err => {
         console.error('Failed to copy: ', err);
     });

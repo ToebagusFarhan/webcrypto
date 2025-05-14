@@ -15,6 +15,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+# rubah jadi 5 letter
 def format_ciphertext(ciphertext):
     # Remove spaces and format into 5-letter groups
     ciphertext = ciphertext.replace(" ", "")

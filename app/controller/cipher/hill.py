@@ -9,13 +9,19 @@ def num_to_text(nums):
     return ''.join([chr(num + ord('A')) for num in nums])
 
 def prepare_key(key, size):
+    # Accept both numbers and alphabets for the key
     key = key.upper()
-    key = ''.join(filter(str.isalpha, key))
-    while len(key) < size * size:
-        key += 'A'
-    key = key[:size*size]
-    key_matrix = text_to_num(key)
-    return np.array(key_matrix).reshape(size, size)
+    key = ''.join(filter(str.isalnum, key))
+    key_nums = []
+    for char in key:
+        if char.isalpha():
+            key_nums.append(ord(char) - ord('A'))
+        elif char.isdigit():
+            key_nums.append(int(char))
+    while len(key_nums) < size * size:
+        key_nums.append(0)  # Pad with 0 if not enough
+    key_nums = key_nums[:size*size]
+    return np.array(key_nums).reshape(size, size)
 
 def prepare_text(plaintext, size):
     plaintext = plaintext.upper()
@@ -59,11 +65,18 @@ def decrypt(ciphertext, key, size=2):
 # --- BYTE-BASED HILL CIPHER FOR FILES ---
 
 def prepare_key_bytes(key: str, size: int) -> np.ndarray:
-    key_bytes = key.encode('latin-1')
+    # Accept both numbers and alphabets for the key
+    key = ''.join(filter(str.isalnum, key))
+    key_bytes = []
+    for char in key:
+        if char.isalpha():
+            key_bytes.append(ord(char.upper()))
+        elif char.isdigit():
+            key_bytes.append(int(char))
     while len(key_bytes) < size * size:
-        key_bytes += b'\x00'
+        key_bytes.append(0)
     key_bytes = key_bytes[:size * size]
-    return np.array(list(key_bytes)).reshape(size, size)
+    return np.array(key_bytes).reshape(size, size)
 
 def encrypt_bytes(data: bytes, key: str, size: int = 2) -> bytes:
     key_matrix = prepare_key_bytes(key, size)
