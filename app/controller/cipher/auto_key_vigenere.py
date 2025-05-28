@@ -1,31 +1,50 @@
 def encrypt(plaintext, key):
-    plaintext = ''.join(filter(str.isalpha, plaintext.upper()))
     key = key.upper()
-    key_stream = key + plaintext[:-len(key)]
-    ciphertext = ''
-    for p, k in zip(plaintext, key_stream):
-        shift = ord(k) - ord('A')
-        encrypted_char = chr(((ord(p) - ord('A') + shift) % 26 + ord('A')))
-        ciphertext += encrypted_char
-    return ciphertext
+    result = ''
+    # Sumber masalah, ngilangin non-alpha tapi spasinya ngikut jirr
+    # Fix it, mechanic
+    plain_alpha = ''.join(filter(str.isalpha, plaintext.upper()))
+    key_stream = key + plain_alpha[:-len(key)]
+    
+    j = 0  # Indeks untuk key_stream
+    for i, char in enumerate(plaintext):
+        if char.isalpha():
+            # ENKRIPSI HURUF DOANG
+            p = char.upper()
+            k = key_stream[j]
+            shift = ord(k) - ord('A')
+            encrypted_char = chr(((ord(p) - ord('A') + shift) % 26 + ord('A')))
+            result += encrypted_char
+            j += 1
+        else:
+            # INI BUAT SPASI, JANGAN DIHAPUS WOI
+            result += char
+    return result
 
 def decrypt(ciphertext, key):
-    ciphertext = ciphertext.upper()
     key = key.upper()
-    plaintext = ''
-    key_part = key
-    for i in range(len(ciphertext)):
-        if i < len(key):
-            k = key[i]
+    result = ''
+    plain_so_far = ''
+    
+    j = 0 
+    for i, char in enumerate(ciphertext):
+        if char.isalpha():
+            if j < len(key):
+                k = key[j]
+            else:
+                k = plain_so_far[j - len(key)]
+            
+            shift = ord(k) - ord('A')
+            decrypted_char = chr(((ord(char.upper()) - ord('A') - shift) % 26 + ord('A')))
+            result += decrypted_char
+            plain_so_far += decrypted_char
+            j += 1
         else:
-            k = plaintext[i - len(key)]
-        shift = ord(k) - ord('A')
-        decrypted_char = chr(((ord(ciphertext[i]) - ord('A') - shift) % 26 + ord('A')))
-        plaintext += decrypted_char
-    return plaintext
+            result += char
+    return result
 
 def encrypt_bytes(data: bytes, key: str) -> bytes:
-    text = data.decode('utf-8', errors='ignore')  # Skip invalid UTF-8 bytes
+    text = data.decode('utf-8', errors='ignore')  
     encrypted = encrypt(text, key)
     return encrypted.encode('utf-8')
 
