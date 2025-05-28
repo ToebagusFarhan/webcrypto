@@ -1,4 +1,3 @@
-# --- TEXT-BASED PLAYFAIR CIPHER ---
 
 def prepare_key(key):
     key = key.upper().replace("J", "I")
@@ -73,7 +72,10 @@ def decrypt(ciphertext, key):
             plaintext += matrix[row_b][col_a]
     return plaintext
 
-# --- FILE-BASED PLAYFAIR-LIKE CIPHER (BYTE DIGRAPH ENCRYPTION) ---
+def get_playfair_square(key):
+    """Returns the Playfair square as a 5x5 matrix for visualization"""
+    return prepare_key(key)
+
 
 def prepare_key_bytes(key: str) -> list:
     key_bytes = []

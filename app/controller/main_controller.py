@@ -72,9 +72,11 @@ def process_text_cipher(action, cipher_type, text, key, a=None, b=None, size=Non
         if action == 'encrypt':
             ciphertext = playfair.encrypt(text, key)
             result['ciphertext'] = format_ciphertext(ciphertext)
-            result['raw_cipher'] = ciphertext.replace(' ', '')  
+            result['raw_cipher'] = ciphertext.replace(' ', '')
+            result['playfair_square'] = playfair.get_playfair_square(key)
         else:
             result['plaintext'] = playfair.decrypt(text, key)
+            result['playfair_square'] = playfair.get_playfair_square(key)
     
     elif cipher_type == 'hill':
         try:

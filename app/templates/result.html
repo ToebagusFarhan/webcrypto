@@ -2,7 +2,22 @@
 
 {% block content %}
 <div class="container result-container">
-    <h2>{{ action|title }}ion Results - {{ cipher_type|replace('_', ' ')|title }}</h2>
+    <h2>Hasil {{ action|title }}ion - {{ cipher_type|replace('_', ' ')|title }}</h2>
+    
+    {% if cipher_type == 'playfair' and 'playfair_square' in result %}
+    <div class="result-section">
+        <h3>Playfair Square</h3>
+        <div class="playfair-grid">
+            {% for row in result.playfair_square %}
+            <div class="playfair-row">
+                {% for char in row %}
+                <div class="playfair-cell">{{ char }}</div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
     
     <div class="result-section">
         <h3>Original Text</h3>

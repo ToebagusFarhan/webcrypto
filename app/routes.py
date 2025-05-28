@@ -70,7 +70,7 @@ def index():
                                     result=result)
 
             else:
-                flash('Either text or a valid file must be provided', 'error')
+                flash('Fool, kau melupakan sesuatu!', 'error')
                 return redirect(url_for('index'))
 
         except Exception as e:
