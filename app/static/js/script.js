@@ -58,6 +58,64 @@ document.addEventListener('DOMContentLoaded', function() {
     // Trigger change event on page load to set initial state
     cipherTypeSelect.dispatchEvent(new Event('change'));
     document.querySelector('input[name="input_type"][value="text"]').dispatchEvent(new Event('change'));
+
+    // Mode slider functionality
+    const slider = document.getElementById('action-slider');
+    const hiddenInput = document.getElementById('action');
+    const labels = document.querySelectorAll('.slider-labels span');
+
+    function updateSlider() {
+        const value = slider.value;
+        hiddenInput.value = value === '0' ? 'encrypt' : 'decrypt';
+        
+        // Update labels
+        labels.forEach((label, index) => {
+            if (index.toString() === value) {
+                label.classList.add('active');
+            } else {
+                label.classList.remove('active');
+            }
+        });
+    }
+
+    slider.addEventListener('input', updateSlider);
+    
+    // Handle label clicks
+    labels.forEach((label, index) => {
+        label.addEventListener('click', () => {
+            slider.value = index;
+            updateSlider();
+        });
+    });
+    
+    // Theme switching functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeLabel = themeToggle.querySelector('.theme-label');
+    const sunIcon = themeToggle.querySelector('.sun-icon');
+    
+    // Check if user has a saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeToggle(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeToggle(newTheme);
+    });
+    
+    function updateThemeToggle(theme) {
+        if (theme === 'light') {
+            themeLabel.textContent = 'Dark';
+            sunIcon.style.transform = 'rotate(180deg)';
+        } else {
+            themeLabel.textContent = 'Light';
+            sunIcon.style.transform = 'rotate(0)';
+        }
+    }
 });
 
 function copyToClipboard(selector) {

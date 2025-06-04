@@ -1,3 +1,26 @@
+/* Color scheme */
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #121212;
+  --text-primary: #ffffff;
+  --accent-primary: #bb86fc;
+  --accent-secondary: #03dac5;
+  --surface: rgba(187, 134, 252, 0.1);
+  --border: rgba(187, 134, 252, 0.2);
+  --surface-hover: rgba(187, 134, 252, 0.2);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --text-primary: #121212;
+  --accent-primary: #6200ee;
+  --accent-secondary: #018786;
+  --surface: rgba(98, 0, 238, 0.1);
+  --border: rgba(98, 0, 238, 0.2);
+  --surface-hover: rgba(98, 0, 238, 0.2);
+}
+
 /* Reset & Base */
 * {
   margin: 0;
@@ -9,19 +32,21 @@ body {
   font-family: "Roboto Mono", monospace;
   font-weight: 700;
   fontstyle: normal;
-  background: #121212;
-  color: #fff;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Header */
 header {
-  border-bottom: 2px solid #bb86fc;
+  border-bottom: 2px solid var(--accent-primary);
   margin-bottom: 2rem;
-  background: rgba(187, 134, 252, 0.1);
+  background: var(--surface);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .header-inner {
@@ -36,7 +61,8 @@ header {
 header h1 {
   font-weight: 500;
   font-size: 1.5rem;
-  color: #bb86fc;
+  color: var(--accent-primary);
+  transition: color 0.3s ease;
 }
 
 header nav {
@@ -46,30 +72,54 @@ header nav {
 
 header nav a {
   text-decoration: none;
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.5rem 0;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 header nav a:hover {
-  border-bottom: 2px solid #03dac5;
+  border-bottom: 2px solid var(--accent-secondary);
 }
 
 /* Main Content */
 main {
-  max-width: 800px;
+  width: 50vw;
   margin: 0 auto;
   padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container and Form Layout */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 /* Forms */
 .form-group {
   margin-bottom: 1.5rem;
-  border: 1px solid rgba(187, 134, 252, 0.2);
-  padding: 1rem;
-  border-radius: 4px;
-  background: rgba(187, 134, 252, 0.05);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: var(--surface);
+  transition: all 0.3s ease;
+}
+
+.form-group:hover {
+  border-color: var(--accent-primary);
+  background: var(--surface-hover);
+  scale: 1.02;
+  transition: all 0.3s ease;
 }
 
 label {
@@ -101,8 +151,16 @@ textarea:focus {
 }
 
 textarea {
-  min-height: 120px;
+  min-height: 150px;
   resize: vertical;
+}
+
+select,
+input[type="text"],
+textarea {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
 }
 
 button,
@@ -122,6 +180,14 @@ button:hover,
 a.button:hover {
   background: #3700b3;
   color: #fff;
+}
+
+button[type="submit"] {
+  display: block;
+  margin: 2rem auto;
+  min-width: 200px;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
 }
 
 /* Flash Messages */
@@ -148,7 +214,8 @@ a.button:hover {
 .radio-group {
   display: flex;
   gap: 1.5rem;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
+  justify-content: center;
 }
 
 .radio-group label {
@@ -165,11 +232,15 @@ a.button:hover {
   margin-left: 0.5rem;
   margin-bottom: 1.5rem;
   background: rgba(187, 134, 252, 0.05);
+  width: 100%;
+  margin: 1.5rem auto;
+  padding: 1.5rem;
 }
 
 .cipher-params h3 {
   color: #03dac5;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 /* Result Section */
@@ -188,6 +259,22 @@ a.button:hover {
   font-family: "Courier New", monospace;
   background: #1e1e1e;
   color: #03dac5;
+}
+
+/* Help text in results */
+.help-text {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.help-text p {
+  color: var(--accent-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
 }
 
 /* About Page */
@@ -233,6 +320,76 @@ a.button:hover {
   margin: 2px;
 }
 
+/* Mode Slider */
+.mode-slider {
+  max-width: 400px;
+  margin: 0 auto 2rem auto;
+  text-align: center;
+}
+
+.slider-container {
+  position: relative;
+  padding: 15px 0;
+}
+
+.slider-container input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: #666;
+  outline: none;
+  margin: 15px 0;
+}
+
+.slider-container input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #bb86fc;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.slider-container input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #bb86fc;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease-in-out;
+}
+
+.slider-container input[type="range"]:active::-webkit-slider-thumb {
+  background: #3700b3;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.slider-labels span {
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.slider-labels span.active {
+  color: #bb86fc;
+  font-weight: bold;
+}
+
+/* Help text centering */
+.help {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -241,6 +398,31 @@ footer {
   border-top: 2px solid #bb86fc;
   margin-top: 2rem;
   background: rgba(187, 134, 252, 0.1);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--accent-secondary);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 /* Responsive Design */

@@ -55,33 +55,52 @@ def prepare_key(key, size):
         
     return key_matrix
 
+def track_spaces(text):
+    """Track positions of spaces in text"""
+    space_positions = []
+    for i, char in enumerate(text):
+        if char.isspace():
+            space_positions.append(i)
+    return ''.join(c for c in text if not c.isspace()), space_positions
+
+def restore_spaces(text, space_positions):
+    """Restore spaces to their original positions"""
+    result = list(text)
+    for pos in space_positions:
+        result.insert(pos, ' ')
+    return ''.join(result)
+
 def prepare_text(text, size):
-    text = text.upper()
-    text = ''.join(filter(str.isalpha, text))
+    # Track spaces and remove them
+    text_no_spaces, space_positions = track_spaces(text)
+    text_no_spaces = text_no_spaces.upper()
+    text_no_spaces = ''.join(filter(str.isalpha, text_no_spaces))
     # Pad with 'X' to make length multiple of size
-    while len(text) % size != 0:
-        text += 'X'
-    return text
+    while len(text_no_spaces) % size != 0:
+        text_no_spaces += 'X'
+    return text_no_spaces, space_positions
 
 def encrypt(plaintext, key, size=2):
     key_matrix = prepare_key(key, size)
-    plaintext = prepare_text(plaintext, size)
+    plaintext_prepared, space_positions = prepare_text(plaintext, size)
     ciphertext = ''
     
-    for i in range(0, len(plaintext), size):
-        block = text_to_num(plaintext[i:i+size])
+    for i in range(0, len(plaintext_prepared), size):
+        block = text_to_num(plaintext_prepared[i:i+size])
         result = np.dot(key_matrix, block) % 26
         ciphertext += num_to_text(result)
         
     return ciphertext
 
 def decrypt(ciphertext, key, size=2):
+    # Remove formatting spaces (5-letter groups)
+    text_no_spaces = ciphertext.replace(' ', '').upper()
     key_matrix = prepare_key(key, size)
     inv_key = matrix_mod_inverse(key_matrix, 26)
     plaintext = ''
     
-    for i in range(0, len(ciphertext), size):
-        block = text_to_num(ciphertext[i:i+size])
+    for i in range(0, len(text_no_spaces), size):
+        block = text_to_num(text_no_spaces[i:i+size])
         result = np.dot(inv_key, block) % 26
         plaintext += num_to_text(result)
         

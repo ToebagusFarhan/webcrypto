@@ -20,22 +20,36 @@ def mod_inverse(a, m):
         )
     return u1 % m
 
+def track_spaces(text):
+    space_positions = []
+    for i, char in enumerate(text):
+        if char.isspace():
+            space_positions.append(i)
+    return ''.join(c for c in text if not c.isspace()), space_positions
+
+def restore_spaces(text, space_positions):
+    result = list(text)
+    for pos in space_positions:
+        result.insert(pos, ' ')
+    return ''.join(result)
+
 def encrypt(plaintext, a, b):
-    plaintext = ''.join(filter(str.isalpha, plaintext.upper()))
+    text_no_spaces, space_positions = track_spaces(plaintext)
+    text_no_spaces = ''.join(filter(str.isalpha, text_no_spaces.upper()))
     ciphertext = ''
-    for char in plaintext:
+    for char in text_no_spaces:
         x = ord(char) - ord('A')
         encrypted = (a * x + b) % 26
         ciphertext += chr(encrypted + ord('A'))
     return ciphertext
 
 def decrypt(ciphertext, a, b):
-    ciphertext = ciphertext.upper()
+    text_no_spaces = ciphertext.replace(' ', '')
     a_inv = mod_inverse(a, 26)
     if a_inv is None:
         raise ValueError("a and 26 must be coprime.")
     plaintext = ''
-    for char in ciphertext:
+    for char in text_no_spaces.upper():
         y = ord(char) - ord('A')
         decrypted = (a_inv * (y - b)) % 26
         plaintext += chr(decrypted + ord('A'))

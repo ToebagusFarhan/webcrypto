@@ -30,19 +30,27 @@ def process_text_cipher(action, cipher_type, text, key, a=None, b=None, size=Non
     
     if cipher_type == 'vigenere':
         if action == 'encrypt':
-            ciphertext = vigenere.encrypt(text, key)
+            plaintext_no_spaces, space_positions = vigenere.track_spaces(text)
+            ciphertext = vigenere.encrypt(plaintext_no_spaces, key)
             result['ciphertext'] = format_ciphertext(ciphertext)
-            result['raw_cipher'] = ciphertext.replace(' ', '')  
+            result['raw_cipher'] = ciphertext
+            result['space_positions'] = space_positions
         else:
-            result['plaintext'] = vigenere.decrypt(text, key)
+            raw_text = text.replace(' ', '')  # Remove formatting spaces
+            decrypted = vigenere.decrypt(raw_text, key)
+            result['plaintext'] = decrypted.lower()  # Convert to lowercase for readability
     
     elif cipher_type == 'auto_key_vigenere':
         if action == 'encrypt':
-            ciphertext = auto_key_vigenere.encrypt(text, key)
+            plaintext_no_spaces, space_positions = auto_key_vigenere.track_spaces(text)
+            ciphertext = auto_key_vigenere.encrypt(plaintext_no_spaces, key)
             result['ciphertext'] = format_ciphertext(ciphertext)
-            result['raw_cipher'] = ciphertext.replace(' ', '')  
+            result['raw_cipher'] = ciphertext
+            result['space_positions'] = space_positions
         else:
-            result['plaintext'] = auto_key_vigenere.decrypt(text, key)
+            raw_text = text.replace(' ', '')  # Remove formatting spaces
+            decrypted = auto_key_vigenere.decrypt(raw_text, key)
+            result['plaintext'] = decrypted.lower()  # Convert to lowercase for readability
     
     elif cipher_type == 'extended_vigenere':
         if action == 'encrypt':
@@ -60,33 +68,45 @@ def process_text_cipher(action, cipher_type, text, key, a=None, b=None, size=Non
             a = int(a)
             b = int(b)
             if action == 'encrypt':
-                ciphertext = affine.encrypt(text, a, b)
+                plaintext_no_spaces, space_positions = affine.track_spaces(text)
+                ciphertext = affine.encrypt(plaintext_no_spaces, a, b)
                 result['ciphertext'] = format_ciphertext(ciphertext)
-                result['raw_cipher'] = ciphertext.replace(' ', '')  
+                result['raw_cipher'] = ciphertext
+                result['space_positions'] = space_positions
             else:
-                result['plaintext'] = affine.decrypt(text, a, b)
+                raw_text = text.replace(' ', '')  # Remove formatting spaces
+                decrypted = affine.decrypt(raw_text, a, b)
+                result['plaintext'] = decrypted.lower()  # Convert to lowercase for readability
         except ValueError as e:
             result['error'] = str(e)
     
     elif cipher_type == 'playfair':
         if action == 'encrypt':
-            ciphertext = playfair.encrypt(text, key)
+            plaintext_no_spaces, space_positions = playfair.track_spaces(text)  # Track spaces first
+            ciphertext = playfair.encrypt(plaintext_no_spaces, key)
             result['ciphertext'] = format_ciphertext(ciphertext)
-            result['raw_cipher'] = ciphertext.replace(' ', '')
+            result['raw_cipher'] = ciphertext
             result['playfair_square'] = playfair.get_playfair_square(key)
+            result['space_positions'] = space_positions
         else:
-            result['plaintext'] = playfair.decrypt(text, key)
+            raw_text = text.replace(' ', '')  # Remove formatting spaces
+            decrypted = playfair.decrypt(raw_text, key)
+            result['plaintext'] = decrypted.lower()  # Convert to lowercase for readability
             result['playfair_square'] = playfair.get_playfair_square(key)
     
     elif cipher_type == 'hill':
         try:
             size = int(size) if size else 2
             if action == 'encrypt':
-                ciphertext = hill.encrypt(text, key, size)
+                plaintext_no_spaces, space_positions = hill.track_spaces(text)
+                ciphertext = hill.encrypt(plaintext_no_spaces, key, size)
                 result['ciphertext'] = format_ciphertext(ciphertext)
-                result['raw_cipher'] = ciphertext.replace(' ', '')  
+                result['raw_cipher'] = ciphertext
+                result['space_positions'] = space_positions
             else:
-                result['plaintext'] = hill.decrypt(text, key, size)
+                raw_text = text.replace(' ', '')  # Remove formatting spaces
+                decrypted = hill.decrypt(raw_text, key, size)
+                result['plaintext'] = decrypted.lower()  # Convert to lowercase for readability
         except ValueError as e:
             result['error'] = str(e)
     

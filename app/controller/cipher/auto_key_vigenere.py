@@ -1,15 +1,26 @@
+def track_spaces(text):
+    space_positions = []
+    for i, char in enumerate(text):
+        if char.isspace():
+            space_positions.append(i)
+    return ''.join(c for c in text if not c.isspace()), space_positions
+
+def restore_spaces(text, space_positions):
+    result = list(text)
+    for pos in space_positions:
+        result.insert(pos, ' ')
+    return ''.join(result)
+
 def encrypt(plaintext, key):
+    text_no_spaces, space_positions = track_spaces(plaintext)
     key = key.upper()
-    result = ''
-    # Sumber masalah, ngilangin non-alpha tapi spasinya ngikut jirr
-    # Fix it, mechanic
-    plain_alpha = ''.join(filter(str.isalpha, plaintext.upper()))
+    plain_alpha = ''.join(filter(str.isalpha, text_no_spaces.upper()))
     key_stream = key + plain_alpha[:-len(key)]
     
-    j = 0  # Indeks untuk key_stream
-    for i, char in enumerate(plaintext):
+    result = ''
+    j = 0  # Index for key_stream
+    for char in text_no_spaces:
         if char.isalpha():
-            # ENKRIPSI HURUF DOANG
             p = char.upper()
             k = key_stream[j]
             shift = ord(k) - ord('A')
@@ -17,17 +28,18 @@ def encrypt(plaintext, key):
             result += encrypted_char
             j += 1
         else:
-            # INI BUAT SPASI, JANGAN DIHAPUS WOI
             result += char
+            
     return result
 
 def decrypt(ciphertext, key):
+    text_no_spaces = ciphertext.replace(' ', '')
     key = key.upper()
     result = ''
     plain_so_far = ''
     
-    j = 0 
-    for i, char in enumerate(ciphertext):
+    j = 0
+    for char in text_no_spaces:
         if char.isalpha():
             if j < len(key):
                 k = key[j]
@@ -41,6 +53,7 @@ def decrypt(ciphertext, key):
             j += 1
         else:
             result += char
+            
     return result
 
 def encrypt_bytes(data: bytes, key: str) -> bytes:

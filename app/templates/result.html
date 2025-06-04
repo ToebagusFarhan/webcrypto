@@ -23,18 +23,23 @@
         <h3>Original Text</h3>
         <div class="text-box">{{ original_text }}</div>
     </div>
-    
-    {% if action == 'encrypt' and 'ciphertext' in result %}
+      {% if action == 'encrypt' and 'ciphertext' in result %}
     <div class="result-section">
-        <h3>Ciphertext (Hex)</h3>
+        <h3>Ciphertext</h3>
         <div class="text-box ciphertext">{{ result.ciphertext }}</div>
         <button onclick="copyToClipboard('.ciphertext')">Copy Ciphertext</button>
         <a href="{{ url_for('download', text=result.raw_cipher) }}" class="button">Download as TXT</a>
+        {% if result.space_positions %}
+        <div class="help-text">
+            <p><small>Note: Spaces from your original text have been preserved and will be restored upon decryption.</small></p>
+        </div>
+        {% endif %}
     </div>
     {% elif action == 'decrypt' and 'plaintext' in result %}
     <div class="result-section">
         <h3>Plaintext</h3>
-        <div class="text-box">{{ result.plaintext }}</div>
+        <div class="text-box decrypted">{{ result.plaintext }}</div>
+        <button onclick="copyToClipboard('.decrypted')">Copy Plaintext</button>
     </div>
     {% endif %}
     

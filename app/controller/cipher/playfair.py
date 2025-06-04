@@ -1,4 +1,3 @@
-
 def prepare_key(key):
     key = key.upper().replace("J", "I")
     key_matrix = []
@@ -10,7 +9,22 @@ def prepare_key(key):
             key_matrix.append(char)
     return [key_matrix[i:i+5] for i in range(0, 25, 5)]
 
+def track_spaces(text):
+    space_positions = []
+    for i, char in enumerate(text):
+        if char.isspace():
+            space_positions.append(i)
+    return ''.join(c for c in text if not c.isspace()), space_positions
+
+def restore_spaces(text, space_positions):
+    result = list(text)
+    for pos in space_positions:
+        result.insert(pos, ' ')
+    return ''.join(result)
+
 def prepare_text(plaintext):
+    # Track space positions before removing them
+    plaintext, space_positions = track_spaces(plaintext)
     plaintext = plaintext.upper().replace("J", "I")
     plaintext = ''.join(filter(str.isalpha, plaintext))
     i = 0
@@ -26,7 +40,7 @@ def prepare_text(plaintext):
             i += 2
     if len(result) % 2 != 0:
         result += 'X'
-    return result
+    return result, space_positions
 
 def find_position(matrix, char):
     for row in range(5):
@@ -37,7 +51,7 @@ def find_position(matrix, char):
 
 def encrypt(plaintext, key):
     matrix = prepare_key(key)
-    plaintext = prepare_text(plaintext)
+    plaintext, space_positions = prepare_text(plaintext)
     ciphertext = ''
     for i in range(0, len(plaintext), 2):
         a, b = plaintext[i], plaintext[i+1]
@@ -56,6 +70,7 @@ def encrypt(plaintext, key):
 
 def decrypt(ciphertext, key):
     matrix = prepare_key(key)
+    # First do the normal Playfair decryption
     plaintext = ''
     for i in range(0, len(ciphertext), 2):
         a, b = ciphertext[i], ciphertext[i+1]
@@ -70,6 +85,18 @@ def decrypt(ciphertext, key):
         else:
             plaintext += matrix[row_a][col_b]
             plaintext += matrix[row_b][col_a]
+    
+    # Remove padding 'X' characters that were added between repeated letters
+    i = 0
+    while i < len(plaintext) - 1:
+        if i + 2 < len(plaintext) and plaintext[i] == plaintext[i+2] and plaintext[i+1] == 'X':
+            plaintext = plaintext[:i+1] + plaintext[i+2:]
+        i += 1
+    
+    # Remove the padding 'X' at the end if it exists
+    if plaintext.endswith('X'):
+        plaintext = plaintext[:-1]
+    
     return plaintext
 
 def get_playfair_square(key):
