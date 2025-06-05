@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, send_file
+from flask import render_template, request, redirect, url_for, flash, send_file, session
 from app import app
 from app.controller.main_controller import (
     allowed_file, 
@@ -12,7 +12,18 @@ from io import BytesIO
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
+def opening():
+    if session.get('seen_opening'):
+        return redirect(url_for('index'))
+    return render_template('opening.html')
+
+@app.route('/start')
+def start():
+    session['seen_opening'] = True
+    return redirect(url_for('index'))
+
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         action = request.form.get('action')

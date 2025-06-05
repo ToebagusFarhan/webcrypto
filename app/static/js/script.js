@@ -106,23 +106,20 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', newTheme);
         updateThemeToggle(newTheme);
     });
-    
+
     function updateThemeToggle(theme) {
-        if (theme === 'light') {
-            themeLabel.textContent = 'Dark';
-            sunIcon.style.transform = 'rotate(180deg)';
-        } else {
-            themeLabel.textContent = 'Light';
-            sunIcon.style.transform = 'rotate(0)';
-        }
+        themeLabel.textContent = theme === 'light' ? 'Dark' : 'Light';
+        sunIcon.style.transform = theme === 'light' ? 'rotate(180deg)' : 'rotate(0)';
+    }
+
+    // Copy to clipboard functionality
+    window.copyToClipboard = function(selector) {
+        const element = document.querySelector(selector);
+        const text = element.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
     }
 });
-
-function copyToClipboard(selector) {
-    const text = document.querySelector(selector).innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        alert('SUDAH DI KOPI KANG!');
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
-    });
-}

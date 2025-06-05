@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>κρυπτός</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/opening.css') }}">
+</head>
+<body>
+  <div class="badge">🔥 New Cipher dropped!</div>
+  <p class="subtitle">We're ready to Present</p>
+  <h1 class="title">Try our Cipher!</h1>
+  <button class="btn" id="get-crypting">Get Crypting!</button>
+
+<p class="powered-by">
+    Powered by
+    <img src="{{ url_for('static', filename='uploads/Flask_logo.svg.png') }}" alt="Flask Logo" class="flask-logo">
+</p>
+
+  <script>
+    document.getElementById('get-crypting').onclick = function() {
+      window.location.href = '/start';
+    };
+  </script>
+</body>
+</html>
