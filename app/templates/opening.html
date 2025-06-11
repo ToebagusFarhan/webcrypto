@@ -15,16 +15,20 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/opening.css') }}">
 </head>
 <body>
-  <div class="badge">🔥 New Cipher dropped!</div>
   <p class="subtitle">We're ready to Present</p>
   <h1 class="title">Try our Cipher!</h1>
   <button class="btn" id="get-crypting">Get Crypting!</button>
 
-<p class="powered-by">
+  <div class="footer-credits">
+  <p class="powered-by">
     Powered by
     <img src="{{ url_for('static', filename='uploads/Flask_logo.svg.png') }}" alt="Flask Logo" class="flask-logo">
-</p>
+  </p>
+  <p class="made-by">
+    Made with ❤️ by Kelompok 5
+  </p>
 
+  </div>
   <script>
     document.getElementById('get-crypting').onclick = function() {
       window.location.href = '/start';

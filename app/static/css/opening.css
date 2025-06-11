@@ -10,28 +10,20 @@ body {
   position: relative;
 }
 
-.badge {
-  background-color: #ffe8cc;
-  color: #d35400;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  margin-bottom: 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+.title:hover {
+  color: #ff8c00;
+  animation: bounce 0.5s ease-in-out;
 }
 
 .subtitle {
   color: #888;
   font-size: 1.5rem;
   margin: 0;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 0.5rem 0;
 }
 
 .btn {
@@ -52,6 +44,18 @@ body {
   background-color: #ff8c00;
   box-shadow: 0 2px 0 #cc7000;
   transform: translateY(2px);
+}
+
+/* footer */
+
+.footer-credits {
+  display: flex;
+  justify-content: center;
+  gap: 10px 0;
+  position: absolute;
+  bottom: 10px;
+  font-size: 0.8rem;
+  color: #888;
 }
 
 .powered-by {
